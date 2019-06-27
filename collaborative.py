@@ -45,6 +45,8 @@ def main():
         testset = torchvision.datasets.MNIST(root='./data/MNIST', train=False,
                                        download=True, transform = tsf['test'])
 
+
+
 if __name__ == '__main__':
 
     import argparse
@@ -53,3 +55,6 @@ if __name__ == '__main__':
 
     try:
         main()
+    except:
+        traceback.print_exc(file=sys.stdout)
+        sys.exit(1)
