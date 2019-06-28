@@ -45,6 +45,24 @@ def main():
         testset = torchvision.datasets.MNIST(root='./data/MNIST', train=False,
                                        download=True, transform = tsf['test'])
 
+    print "len(trainset) ", len(trainset)
+    print "len(testset) ", len(testset)
+    x_train, y_train = trainset.train_data, trainset.train_labels,
+    x_test, y_test = testset.test_data, testset.test_labels,
+
+    print "x_train.shape ", x_train.shape
+    print "x_test.shape ", x_test.shape
+
+
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size = 1,
+                                      shuffle = False, num_workers = 1)
+    testloader = torch.utils.data.DataLoader(testset, batch_size = 1000,
+                                      shuffle = False, num_workers = 1)
+    inverseloader = torch.utils.data.DataLoader(testset, batch_size = 1,
+                                      shuffle = False, num_workers = 1)
+    trainIter = iter(trainloader)
+    testIter = iter(testloader)
+    inverseIter = iter(inverseloader)
 
 
 if __name__ == '__main__':
