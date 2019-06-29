@@ -53,7 +53,6 @@ def main():
     print "x_train.shape ", x_train.shape
     print "x_test.shape ", x_test.shape
 
-
     trainloader = torch.utils.data.DataLoader(trainset, batch_size = 1,
                                       shuffle = False, num_workers = 1)
     testloader = torch.utils.data.DataLoader(testset, batch_size = 1000,
