@@ -37,7 +37,7 @@ def main():
             transforms.ToTensor(),
             Normalize
             ])
-            }
+        }
 
         trainset = torchvision.datasets.MNIST(root='./data/MNIST', train=True,
                                         download=True, transform = tsf['train'])
@@ -53,7 +53,6 @@ def main():
     print "x_train.shape ", x_train.shape
     print "x_test.shape ", x_test.shape
 
-
     trainloader = torch.utils.data.DataLoader(trainset, batch_size = 1,
                                       shuffle = False, num_workers = 1)
     testloader = torch.utils.data.DataLoader(testset, batch_size = 1000,
@@ -63,6 +62,8 @@ def main():
     trainIter = iter(trainloader)
     testIter = iter(testloader)
     inverseIter = iter(inverseloader)
+
+    
 
 
 if __name__ == '__main__':

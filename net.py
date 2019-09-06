@@ -59,7 +59,6 @@ class LeNet(nn.Module):
         self.classifier.append(self.fc1act)
         self.layerDict['fc1act'] = self.fc1act
 
-
         self.fc2 = nn.Linear(120, 84)
         self.classifier.append(self.fc2)
         self.layerDict['fc2'] = self.fc2
@@ -72,12 +71,10 @@ class LeNet(nn.Module):
         self.classifier.append(self.fc3)
         self.layerDict['fc3'] = self.fc3
 
-
     def forward(self, x):
         for layer in self.features:
             x = layer(x)
 
-        #print 'x.size', x.size()
         x = x.view(-1, self.feature_dims)
 
         for layer in self.classifier:
@@ -93,9 +90,7 @@ class LeNet(nn.Module):
                 layeridx = self.features.index(targetLayer)
                 for func in self.features[layeridx+1:]:
                     x = func(x)
-#                    print "x.size() ", x.size()
 
-#                print "Pass Features "
                 x = x.view(-1, self.feature_dims)
                 for func in self.classifier:
                     x = func(x)
