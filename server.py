@@ -13,21 +13,25 @@ import collections
 import client
 import data
 
+from net import LeNet
+
 class ServerNN(object):
     def __init__(n_client=2):
-        super(ClientNN, self).__init__()
+        super(ServerNN, self).__init__()
 
         self.n_client = n_client
-        self.sender = client.ClientNN()
-        self.receiver = client.ClientNN()
+        self.net = LeNet()
+        self.sender = client.ClientNN(net=self.net)
+        self.receiver = client.ClientNN(net=self.net)
         self.clients = [self.sender, self.receiver]
         for i in range(self.n_client-2):
-            self.clients.append(client.ClientNN())
+            self.clients.append(client.ClientNN(net=self.net))
 
         dataset_total = LoadMNIST()
-        _SetClientData(dataset_total, self.clients)
+        self._SetClientData(dataset_total, self.clients)
 
-    def _SetClientData(data, clients):
+
+    def _SetClientData(self, data, clients):
         n_clients = len(clients)
         n_train = data['x_train'].shape[0]
         n_test = data['x_test'].shape[0]

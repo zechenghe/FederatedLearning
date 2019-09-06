@@ -12,11 +12,11 @@ import torch.nn.functional as F
 import collections
 
 class ClientNN(object):
-    def __init__():
+    def __init__(net):
         super(ClientNN, self).__init__()
+        self.net = net
 
-
-    def SetData(x_train=None, y_train=None, x_test=None, y_test=None):
+    def SetData(self, x_train=None, y_train=None, x_test=None, y_test=None):
         self.x_train = x_train
         self.y_train = y_train
         self.x_test = x_test
