@@ -30,6 +30,7 @@ class ServerNN(object):
         dataset_total = LoadMNIST()
         self._SetClientData(dataset_total, self.clients)
 
+        
 
     def _SetClientData(self, data, clients):
         n_clients = len(clients)
