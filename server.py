@@ -15,7 +15,7 @@ import data
 
 from net import LeNet
 
-class ServerNN(object):
+class FederatedLearner(object):
     def __init__(n_client=2):
         super(ServerNN, self).__init__()
 
@@ -30,7 +30,8 @@ class ServerNN(object):
         dataset_total = LoadMNIST()
         self._SetClientData(dataset_total, self.clients)
 
-
+    def federated_train(self):
+        
 
     def _SetClientData(self, data, clients):
         n_clients = len(clients)
