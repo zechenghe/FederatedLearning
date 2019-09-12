@@ -31,7 +31,7 @@ class FederatedLearner(object):
         self._SetClientData(dataset_total, self.clients)
 
     def federated_train(self):
-        
+
 
     def _SetClientData(self, data, clients):
         n_clients = len(clients)
