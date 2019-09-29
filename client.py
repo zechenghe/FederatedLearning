@@ -21,3 +21,4 @@ class ClientNN(object):
         self.y_train = y_train
         self.x_test = x_test
         self.y_test = y_test
+        
