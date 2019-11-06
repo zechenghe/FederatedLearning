@@ -44,7 +44,7 @@ def FederatedTrain(args):
     print "len(x_train_split)", len(x_train_split)
     print "len(y_train_split)", len(y_train_split)
 
-    init_net = net.LeNet()
+    init_net = net.LeNet(n_channels = n_channels)
 
     print init_net
 
