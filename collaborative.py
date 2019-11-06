@@ -67,7 +67,7 @@ def FederatedTrain(args):
     for t in range(args.epochs):
         client.load_model(model_path = model_dir + global_model_name)
 
-        for idx in range(len(n_clients)):
+        for idx in range(n_clients):
             x_train_local = x_train_split[idx]
             y_train_local = y_train_split[idx]
             if args.gpu:
