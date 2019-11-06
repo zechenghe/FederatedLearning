@@ -58,13 +58,12 @@ def FederatedTrain(args):
 
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
-    torch.save(global_net, model_dir + model_name)
+    torch.save(global_net.state_dict(), model_dir + model_name)
     print "Model saved"
 
 
     model = net.LeNet(n_channels = n_channels)
     model.load_state_dict(torch.load(model_dir + model_name))
-    model.eval()
 
 if __name__ == '__main__':
 
