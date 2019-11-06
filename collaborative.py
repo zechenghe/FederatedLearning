@@ -44,9 +44,22 @@ def FederatedTrain(args):
     print "len(x_train_split)", len(x_train_split)
     print "len(y_train_split)", len(y_train_split)
 
-    init_net = net.LeNet(n_channels = n_channels)
+    global_net = net.LeNet(n_channels = n_channels)
+    if args.gpu:
+        global_net = global_net.cuda()
 
-    print init_net
+    print global_net
+    print global_net.state_dict
+
+    optimizer = optim.SGD(global_net.parameters(), lr = args.lr)
+
+    model_dir = args.model_dir
+    model_name = args.model_name
+
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
+    torch.save(global_net, model_dir + model_name)
+    print "Model saved"
 
 
 if __name__ == '__main__':
@@ -61,10 +74,13 @@ if __name__ == '__main__':
         parser.add_argument('--network', type = str, default = 'LeNet')
         parser.add_argument('--n_clients', type = int, default = 4)
         parser.add_argument('--epochs', type = int, default = 200)
+        parser.add_argument('--lr', type = float, default = 1e-3)
+        parser.add_argument('--model_dir', type = str, default = "checkpoints/")
+        parser.add_argument('--model_name', type = str, default = 'global_model.pth')
 
-        #parser.add_argument('--gpu', dest='gpu', action='store_true')
-        #parser.add_argument('--nogpu', dest='gpu', action='store_false')
-        #parser.set_defaults(gpu=True)
+        parser.add_argument('--gpu', dest='gpu', action='store_true')
+        parser.add_argument('--nogpu', dest='gpu', action='store_false')
+        parser.set_defaults(gpu=True)
         args = parser.parse_args()
         assert args.n_clients > 2
 
