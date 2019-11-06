@@ -62,7 +62,7 @@ def FederatedTrain(args):
     torch.save(global_net.state_dict(), model_dir + global_model_name)
     print "Model saved"
 
-    client = Client()
+    client = Client(net = global_net)
 
     for t in range(len(args.epochs)):
         print t
