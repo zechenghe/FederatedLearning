@@ -64,7 +64,7 @@ def FederatedTrain(args):
 
     client = Client(net = global_net)
 
-    for t in range(len(args.epochs)):
+    for t in range(args.epochs):
         print t
         client.load_model(model_path = model_dir + global_model_name)
 
