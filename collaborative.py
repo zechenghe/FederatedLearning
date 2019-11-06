@@ -13,6 +13,7 @@ import torch.backends.cudnn as cudnn
 
 import data
 import net
+from client import Client
 
 def FederatedTrain(args):
 
