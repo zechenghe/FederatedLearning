@@ -15,7 +15,7 @@ from net import *
 
 def FederatedTrain(args):
 
-    if args.dataset = 'MNIST':
+    if args.dataset == 'MNIST':
         dataset = data.LoadMNIST()
     else:
         print 'Dataset Is Not Supported'
