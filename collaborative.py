@@ -18,6 +18,7 @@ def FederatedTrain(args):
 
     if args.dataset == 'MNIST':
         dataset = data.LoadMNIST()
+        n_channels = 1
     else:
         print 'Dataset Is Not Supported'
         exit(1)
@@ -58,7 +59,7 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser()
         parser.add_argument('--dataset', type = str, default = 'MNIST')
         parser.add_argument('--network', type = str, default = 'LeNet')
-        parser.add_argument('--n_clients', type = int, default = 3)
+        parser.add_argument('--n_clients', type = int, default = 4)
         parser.add_argument('--epochs', type = int, default = 200)
 
         #parser.add_argument('--gpu', dest='gpu', action='store_true')

@@ -12,14 +12,14 @@ import torch.nn.functional as F
 import collections
 
 class LeNet(nn.Module):
-    def __init__(self, NChannels):
+    def __init__(self, n_channels):
         super(LeNet, self).__init__()
         self.features = []
         self.classifier = []
         self.layerDict = collections.OrderedDict()
 
         self.conv1 = nn.Conv2d(
-            in_channels = NChannels,
+            in_channels = n_channels,
             out_channels = 8,
             kernel_size = 5
         )
