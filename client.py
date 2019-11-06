@@ -11,14 +11,12 @@ import torch.nn.functional as F
 
 import collections
 
-class ClientNN(object):
-    def __init__(net):
-        super(ClientNN, self).__init__()
+class Client(object):
+    def __init__(self, net):
+        super(Client, self).__init__()
         self.net = net
 
-    def SetData(self, x_train=None, y_train=None, x_test=None, y_test=None):
-        self.x_train = x_train
-        self.y_train = y_train
-        self.x_test = x_test
-        self.y_test = y_test
+    def load_model(self, model_path)
+
+        self.net.load_state_dict(torch.load(model_path))
         

@@ -54,16 +54,18 @@ def FederatedTrain(args):
     optimizer = optim.SGD(global_net.parameters(), lr = args.lr)
 
     model_dir = args.model_dir
-    model_name = args.model_name
+    global_model_name = args.global_model_name
 
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
-    torch.save(global_net.state_dict(), model_dir + model_name)
+    torch.save(global_net.state_dict(), model_dir + global_model_name)
     print "Model saved"
 
+    client = Client()
 
-    model = net.LeNet(n_channels = n_channels)
-    model.load_state_dict(torch.load(model_dir + model_name))
+    for t in range(len(args.epochs)):
+        print t
+        client.load_model(model_path = model_dir + global_model_name)
 
 if __name__ == '__main__':
 
@@ -79,7 +81,7 @@ if __name__ == '__main__':
         parser.add_argument('--epochs', type = int, default = 200)
         parser.add_argument('--lr', type = float, default = 1e-3)
         parser.add_argument('--model_dir', type = str, default = "checkpoints/")
-        parser.add_argument('--model_name', type = str, default = 'global_model.pth')
+        parser.add_argument('--global_model_name', type = str, default = 'global_model.pth')
 
         parser.add_argument('--gpu', dest='gpu', action='store_true')
         parser.add_argument('--nogpu', dest='gpu', action='store_false')
