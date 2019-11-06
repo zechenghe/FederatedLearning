@@ -62,6 +62,10 @@ def FederatedTrain(args):
     print "Model saved"
 
 
+    model = net.LeNet(n_channels = n_channels)
+    model.load_state_dict(torch.load(model_dir + model_name))
+    model.eval()
+
 if __name__ == '__main__':
 
     import argparse
