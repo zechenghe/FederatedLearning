@@ -27,14 +27,14 @@ def FederatedTrain(args):
     n_train = dataset['x_train'].shape[0]
     n_test = dataset['x_test'].shape[0]
 
-    x_train = data['x_train']
-    y_train = data['y_train']
+    x_train = dataset['x_train']
+    y_train = dataset['y_train']
     x_train_split = np.split(x_train, n_clients, axis=0)
     y_train_split = np.split(y_train, n_clients, axis=0)
-    x_test = data['x_test']
-    y_test = data['y_test']
-    tsf_train = data['tsf']['train']
-    tsf_test = data['tsf']['test']
+    x_test = dataset['x_test']
+    y_test = dataset['y_test']
+    tsf_train = dataset['tsf']['train']
+    tsf_test = dataset['tsf']['test']
 
     print "x_train.shape ", x_train.shape
     print "y_train.shape ", y_train.shape

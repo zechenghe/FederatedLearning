@@ -42,13 +42,8 @@ def LoadMNIST():
         testset = torchvision.datasets.MNIST(root='./data/MNIST', train=False,
                                        download=True, transform = tsf['test'])
 
-    print "len(trainset) ", len(trainset)
-    print "len(testset) ", len(testset)
     x_train, y_train = trainset.train_data, trainset.train_labels,
     x_test, y_test = testset.test_data, testset.test_labels,
-
-    print "x_train.shape ", x_train.shape
-    print "x_test.shape ", x_test.shape
 
     dataset_total = {
         'x_train': x_train,
