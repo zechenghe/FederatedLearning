@@ -11,6 +11,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import torch.backends.cudnn as cudnn
 
+from data import *
 from net import *
 
 def FederatedTrain(args):
