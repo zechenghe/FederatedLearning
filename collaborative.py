@@ -61,7 +61,7 @@ def FederatedTrain(args):
     print "Model saved"
 
     client = Client(net = global_net)
-    if args.gpu:
+    client.gpu = args.gpu
 
     for t in range(args.epochs):
         if t == 0:
