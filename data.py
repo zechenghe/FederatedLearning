@@ -77,7 +77,7 @@ class FederatedDataset(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
-        img, target = self.data[idx], self.targets[idx]
+        img, target = self.data[idx], self.target[idx]
 
         if self.transform is not None:
             img = self.transform(img)
