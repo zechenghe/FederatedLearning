@@ -58,7 +58,7 @@ def FederatedTrain(args):
     torch.save(global_net.state_dict(), model_dir + global_model_name + '_init_.pth')
     print "Model saved"
 
-    client = Client(net = global_net, args)
+    client = Client(net = global_net, args = args)
     client.gpu = args.gpu
 
     for t in range(args.epochs):
