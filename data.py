@@ -68,7 +68,7 @@ class FederatedDataset(Dataset):
     def __init__(self, data, target, transform=None, target_transform=None):
         self.data = data
         self.target = target
-        self.transfor = transform
+        self.transform = transform
         self.target_transform = target_transform
 
         assert len(self.data) == len(self.target)
