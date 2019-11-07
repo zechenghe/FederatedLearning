@@ -71,8 +71,8 @@ class FederatedDataset(Dataset):
         self.transfor = transform
         self.target_transform = target_transform
 
-        print self.data.shape
-        print self.target.shape
+        print len(self.data)
+        print len(self.target)
 
         assert len(self.data) != len(self.target)
 
