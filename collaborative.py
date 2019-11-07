@@ -74,7 +74,7 @@ def FederatedTrain(args):
             x_train_local = x_train_split[idx]
             y_train_local = y_train_split[idx]
 
-            client.comp_grad(x_train_local, y_train_local)
+            client.comp_grad(idx, x_train_local, y_train_local)
 
 
 if __name__ == '__main__':
