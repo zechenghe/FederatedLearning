@@ -29,15 +29,19 @@ class Client(object):
         #        eps = args.eps,
         #        amsgrad = args.AMSGrad
         #    )
-        self.gpu = False
+        self._gpu = False
 
     @property
-    def set_gpu(self):
-        return self.gpu
+    def gpu(self):
+        return self._gpu
 
-    @gpu.setter
-    def set_gpu(self, use_gpu):
-        self.gpu = use_gpu
+    @property.setter
+    def gpu(self, use_gpu):
+        self._gpu = use_gpu
+        if self._gpu:
+            self.net = self.net.cuda()
+            self.optimizer = self.optimizer.cuda()
+        return self._gpu
 
     def load_model(model_path):
         self.net.load_state_dict(torch.load(model_path))
