@@ -32,11 +32,11 @@ class Client(object):
         self.gpu = False
 
     @property
-    def gpu(self):
+    def set_gpu(self):
         return self.gpu
 
     @gpu.setter
-    def gpu(self, use_gpu):
+    def set_gpu(self, use_gpu):
         self.gpu = use_gpu
 
     def load_model(model_path):
