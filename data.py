@@ -35,11 +35,17 @@ def load_mnist():
             'target_transform': None
         }
 
-        trainset = torchvision.datasets.MNIST(root='./data/MNIST', train=True,
-                                        download=True, transform = tsf['train'])
+        trainset = torchvision.datasets.MNIST(
+            root='./data/MNIST',
+            train=True,
+            download=True
+        )
 
-        testset = torchvision.datasets.MNIST(root='./data/MNIST', train=False,
-                                       download=True, transform = tsf['test'])
+        testset = torchvision.datasets.MNIST(
+            root='./data/MNIST',
+            train=False,
+            download=True
+        )
 
     x_train, y_train = trainset.data, trainset.targets,
     x_test, y_test = testset.data, testset.targets,
