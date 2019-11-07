@@ -47,9 +47,7 @@ def FederatedTrain(args):
 
     global_net = net.LeNet(n_channels = n_channels)
     global_net = global_net.cuda()
-
     print global_net
-    print global_net.state_dict
 
     model_dir = args.model_dir
     global_model_name = args.global_model_name
@@ -60,7 +58,7 @@ def FederatedTrain(args):
     torch.save(global_net.state_dict(), model_dir + global_model_name + '_init_.pth')
     print "Model saved"
 
-    client = Client(net = global_net)
+    client = Client(net = global_net, args)
     client.gpu = args.gpu
 
     for t in range(args.epochs):
