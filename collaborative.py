@@ -46,37 +46,36 @@ def FederatedTrain(args):
     print "len(y_train_split)", len(y_train_split)
 
     global_net = net.LeNet(n_channels = n_channels)
-    if args.gpu:
-        global_net = global_net.cuda()
+    global_net = global_net.cuda()
 
     print global_net
     print global_net.state_dict
 
-    optimizer = optim.SGD(global_net.parameters(), lr = args.lr)
-
     model_dir = args.model_dir
     global_model_name = args.global_model_name
+    global_optim_name = args.global_optimizor_name
 
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
-    torch.save(global_net.state_dict(), model_dir + global_model_name)
+    torch.save(global_net.state_dict(), model_dir + global_model_name + '_init_.pth')
     print "Model saved"
 
     client = Client(net = global_net)
+    if args.gpu:
 
     for t in range(args.epochs):
-        client.load_model(model_path = model_dir + global_model_name)
+        if t == 0:
+            global_model_suffix = '_init_.pth'
+        else:
+            global_model_suffix = '_{cur}.pth'.format(cur=t-1)
+
+        client.load_model(model_path = model_dir + global_model_name + global_model_suffix)
 
         for idx in range(n_clients):
-            print 't={t}, client idx = {idx}'.format(
-                t = t,
-                idx = idx
-            )
             x_train_local = x_train_split[idx]
             y_train_local = y_train_split[idx]
-            if args.gpu:
-                x_train_local = x_train_local.cuda()
-                y_train_local = y_train_local.cuda()
+
+            client.comp_grad(x_train_local, y_train_local)
 
 
 if __name__ == '__main__':
@@ -93,7 +92,8 @@ if __name__ == '__main__':
         parser.add_argument('--epochs', type = int, default = 200)
         parser.add_argument('--lr', type = float, default = 1e-3)
         parser.add_argument('--model_dir', type = str, default = "checkpoints/")
-        parser.add_argument('--global_model_name', type = str, default = 'global_model.pth')
+        parser.add_argument('--global_model_name', type = str, default = 'global_model')
+        parser.add_argument('--global_optimizor_name', type = str, default = 'global_optim')
 
         parser.add_argument('--gpu', dest='gpu', action='store_true')
         parser.add_argument('--nogpu', dest='gpu', action='store_false')
