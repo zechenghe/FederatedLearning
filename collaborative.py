@@ -61,7 +61,7 @@ def FederatedTrain(args):
         client.load_model(model_path = model_dir + global_model_name + global_model_suffix)
 
         for i in range(n_clients):
-            print 't= ', t, 'idx= ', idx
+            print 't= ', t, 'client model idx= ', i
             try:
                 batchX, batchY = next(dataiters_train[i])
             except StopIteration:
