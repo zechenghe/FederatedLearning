@@ -31,7 +31,6 @@ def load_mnist():
         tsf = {
             'transform': transforms.Compose(
             [
-            transforms.ToTensor(),
             Normalize
             ]),
 
