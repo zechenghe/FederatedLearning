@@ -41,7 +41,7 @@ class Client(object):
         if self._gpu:
             self.net = self.net.cuda()
 
-    def load_model(model_path):
+    def load_model(self, model_path):
         self.net.load_state_dict(torch.load(model_path))
 
     def comp_grad(self, idx, batchX, batchY):
