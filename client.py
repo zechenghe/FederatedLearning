@@ -35,7 +35,7 @@ class Client(object):
     def gpu(self):
         return self._gpu
 
-    @property.setter
+    @gpu.setter
     def gpu(self, use_gpu):
         self._gpu = use_gpu
         if self._gpu:
