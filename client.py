@@ -53,7 +53,6 @@ class Client(object):
             self.net = self.net.cuda()
             batchX = batchX.cuda()
             batchY = batchY.cuda()
-            optimizer = optimizer.cuda()
             criterion = criterion.cuda()
             softmax = softmax.cuda()
 
