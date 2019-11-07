@@ -22,7 +22,7 @@ def FederatedTrain(args):
 
     if args.dataset == 'MNIST':
         dataset = data.load_mnist()
-        dataloaders_train, dataloader_test = create_split_dataloaders(
+        dataloaders_train, dataloader_test = data.create_split_dataloaders(
             dataset = dataset,
             args=args
         )
