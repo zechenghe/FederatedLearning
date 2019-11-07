@@ -6,12 +6,15 @@ import numpy as np
 import torch
 import torchvision
 import torchvision.transforms as transforms
+
+from torch.utils.data import Dataset, DataLoader
+
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import torch.backends.cudnn as cudnn
 
-def LoadMNIST():
+def load_mnist():
     DATASET = 'MNIST'
 
     print "DATASET: ", DATASET
@@ -23,17 +26,13 @@ def LoadMNIST():
         Unnormalize = transforms.Normalize((-mu / sigma).tolist(), (1.0 / sigma).tolist())
 
         tsf = {
-            'train': transforms.Compose(
+            'transform': transforms.Compose(
             [
             transforms.ToTensor(),
             Normalize
             ]),
 
-            'test': transforms.Compose(
-            [
-            transforms.ToTensor(),
-            Normalize
-            ])
+            'target_transform': None
         }
 
         trainset = torchvision.datasets.MNIST(root='./data/MNIST', train=True,
@@ -42,8 +41,8 @@ def LoadMNIST():
         testset = torchvision.datasets.MNIST(root='./data/MNIST', train=False,
                                        download=True, transform = tsf['test'])
 
-    x_train, y_train = trainset.train_data, trainset.train_labels,
-    x_test, y_test = testset.test_data, testset.test_labels,
+    x_train, y_train = trainset.data, trainset.targets,
+    x_test, y_test = testset.data, testset.targets,
 
     dataset_total = {
         'x_train': x_train,
@@ -54,3 +53,76 @@ def LoadMNIST():
     }
 
     return dataset_total
+
+
+class FederatedDataset(Dataset):
+    def __init__(self, data, target, transform=None, target_transform=None):
+        self.data = data
+        self.target = target
+        self.transfor = transform
+        self.target_transform = target_transform
+
+        assert len(self.data) != len(self.target)
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        img, target = self.data[index], int(self.targets[index])
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return img, target
+
+def create_split_dataloaders(dataset, args):
+
+    n_clients = args.n_clients
+    n_train = dataset['x_train'].shape[0]
+    n_test = dataset['x_test'].shape[0]
+
+    x_train = dataset['x_train']
+    y_train = dataset['y_train']
+    x_train_split = np.split(x_train, n_clients, axis=0)
+    y_train_split = np.split(y_train, n_clients, axis=0)
+
+    dataloader_train = [
+        torch.utils.data.DataLoader(
+            FederatedDataset(
+                data = x_train_split[i],
+                target = y_train_split[i],
+                transform = dataset['tsf']['transform'],
+                target_transform = dataset['tsf']['target_transform']
+            ),
+            batch_size = args.batch_size,
+            shuffle = True,
+            num_workers = 1
+        )
+        for i in range(n_clients)
+    ]
+
+    x_test = dataset['x_test']
+    y_test = dataset['y_test']
+    dataloader_test = torch.utils.data.DataLoader(
+        FederatedDataset(
+            data = x_test,
+            target = y_test,
+            transform = dataset['tsf']['transform'],
+            target_transform = dataset['tsf']['target_transform']
+        ),
+        batch_size = 1000,
+        shuffle = False,
+        num_workers = 1
+    )
+
+    print "x_train.shape ", x_train.shape
+    print "y_train.shape ", y_train.shape
+    print "x_test.shape ", x_test.shape
+    print "y_test.shape ", y_test.shape
+    print "len(x_train_split)", len(x_train_split)
+    print "len(y_train_split)", len(y_train_split)
+
+    return dataloader_train, dataloader_test

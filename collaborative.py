@@ -18,32 +18,13 @@ from client import Client
 def FederatedTrain(args):
 
     if args.dataset == 'MNIST':
-        dataset = data.LoadMNIST()
+        dataset = data.load_mnist()
         n_channels = 1
     else:
         print 'Dataset Is Not Supported'
         exit(1)
 
     n_clients = args.n_clients
-
-    n_train = dataset['x_train'].shape[0]
-    n_test = dataset['x_test'].shape[0]
-
-    x_train = dataset['x_train']
-    y_train = dataset['y_train']
-    x_train_split = np.split(x_train, n_clients, axis=0)
-    y_train_split = np.split(y_train, n_clients, axis=0)
-    x_test = dataset['x_test']
-    y_test = dataset['y_test']
-    tsf_train = dataset['tsf']['train']
-    tsf_test = dataset['tsf']['test']
-
-    print "x_train.shape ", x_train.shape
-    print "y_train.shape ", y_train.shape
-    print "x_test.shape ", x_test.shape
-    print "y_test.shape ", y_test.shape
-    print "len(x_train_split)", len(x_train_split)
-    print "len(y_train_split)", len(y_train_split)
 
     global_net = net.LeNet(n_channels = n_channels)
     global_net = global_net.cuda()
@@ -89,6 +70,7 @@ if __name__ == '__main__':
         parser.add_argument('--network', type = str, default = 'LeNet')
         parser.add_argument('--n_clients', type = int, default = 4)
         parser.add_argument('--epochs', type = int, default = 200)
+        parser.add_argument('--batch_size', type = int, default = 32)
         parser.add_argument('--lr', type = float, default = 1e-3)
         parser.add_argument('--model_dir', type = str, default = "checkpoints/")
         parser.add_argument('--global_model_name', type = str, default = 'global_model')
