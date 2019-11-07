@@ -41,7 +41,6 @@ class Client(object):
         if self._gpu:
             self.net = self.net.cuda()
             self.optimizer = self.optimizer.cuda()
-        return self._gpu
 
     def load_model(model_path):
         self.net.load_state_dict(torch.load(model_path))
