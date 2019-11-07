@@ -49,7 +49,7 @@ class Client(object):
         criterion = nn.CrossEntropyLoss()
         softmax = nn.Softmax(dim=1)
 
-        if sels.gpu:
+        if self.gpu:
             self.net = self.net.cuda()
             batchX = batchX.cuda()
             batchY = batchY.cuda()
