@@ -19,15 +19,16 @@ class Client(object):
         super(Client, self).__init__()
 
         self.net = net
-        self.optimizer = optim.SGD(net.parameters(), lr = args.lr)
         self.n_clients = args.n_clients
         self.model_state = [None] * self.n_clients
-        self.optimizors = optim.Adam(
-                params = net.parameters(),
-                lr = learningRate,
-                eps = eps,
-                amsgrad = AMSGrad
-            )
+
+        self.optimizer = optim.SGD(net.parameters(), lr = args.lr)
+        #self.optimizer = optim.Adam(
+        #        params = net.parameters(),
+        #        lr = args.lr,
+        #        eps = args.eps,
+        #        amsgrad = args.AMSGrad
+        #    )
         self.gpu = False
 
     @property
@@ -42,7 +43,7 @@ class Client(object):
         self.net.load_state_dict(torch.load(model_path))
 
     def comp_grad(self, idx, batchX, batchY):
-        optimizor = self.optimizor
+        optimizer = self.optimizer
         criterion = nn.CrossEntropyLoss()
         softmax = nn.Softmax(dim=1)
 
@@ -50,7 +51,7 @@ class Client(object):
             self.net = self.net.cuda()
             batchX = batchX.cuda()
             batchY = batchY.cuda()
-            optimizor = optimizor.cuda()
+            optimizer = optimizer.cuda()
             criterion = criterion.cuda()
             softmax = softmax.cuda()
 
