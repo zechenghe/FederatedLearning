@@ -36,8 +36,8 @@ class Client(object):
         return self.gpu
 
     @gpu.setter
-    def gpu(self, gpu):
-        self.gpu = gpu
+    def gpu(self, use_gpu):
+        self.gpu = use_gpu
 
     def load_model(model_path):
         self.net.load_state_dict(torch.load(model_path))
