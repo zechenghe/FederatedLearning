@@ -113,7 +113,7 @@ def create_split_dataloaders(dataset, args):
     )
 
     print "dataset['train'].data.shape ", dataset['train'].data.shape
-    print "dataset['train'].target.shape ", dataset['target'].data.shape
+    print "dataset['train'].target.shape ", dataset['train'].data.shape
     print "dataset['test'].data.shape ", dataset['test'].data.shape
     print "dataset['test'].data.shape ", dataset['test'].data.shape
 
