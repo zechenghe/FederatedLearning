@@ -72,7 +72,7 @@ def FederatedTrain(args):
         client.load_model(model_path = model_dir + global_model_name + global_model_suffix)
 
         for idx in range(n_clients):
-            print 't= ', t, 'idx' = idx
+            print 't= ', t, 'idx= ', idx
             x_train_local = x_train_split[idx]
             y_train_local = y_train_split[idx]
 
