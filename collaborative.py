@@ -1,3 +1,6 @@
+# @Author: Zecheng He
+# @Date:   2019-11-04T14:28:07-05:00
+
 import time
 import math
 import os
@@ -19,10 +22,17 @@ def FederatedTrain(args):
 
     if args.dataset == 'MNIST':
         dataset = data.load_mnist()
+        dataloaders_train, dataloader_test = create_split_dataloaders(
+            dataset = dataset,
+            args=args
+        )
+        dataiters_train = [iter(loader) for loader in dataloaders_train]
+        dataiters_test = iter(dataloader_test)
         n_channels = 1
     else:
         print 'Dataset Is Not Supported'
         exit(1)
+
 
     n_clients = args.n_clients
 
@@ -50,12 +60,15 @@ def FederatedTrain(args):
 
         client.load_model(model_path = model_dir + global_model_name + global_model_suffix)
 
-        for idx in range(n_clients):
+        for i in range(n_clients):
             print 't= ', t, 'idx= ', idx
-            x_train_local = x_train_split[idx]
-            y_train_local = y_train_split[idx]
+            try:
+                batchX, batchY = next(dataiters_train[i])
+            except StopIteration:
+                dataiters_train[i] = iter(dataloaders_train[i])
+                batchX, batchY = next(dataloader_iterator)
 
-            client.comp_grad(idx, x_train_local, y_train_local)
+            client.comp_grad(i, batchX, batchY)
 
 
 if __name__ == '__main__':

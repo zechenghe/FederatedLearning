@@ -1,3 +1,6 @@
+# @Author: Zecheng He
+# @Date:   2019-11-06T14:28:07-05:00
+
 import time
 import math
 import os
@@ -95,7 +98,7 @@ def create_split_dataloaders(dataset, args):
     x_train_split = np.split(x_train, n_clients, axis=0)
     y_train_split = np.split(y_train, n_clients, axis=0)
 
-    dataloader_train = [
+    dataloaders_train = [
         torch.utils.data.DataLoader(
             FederatedDataset(
                 data = x_train_split[i],
@@ -131,4 +134,4 @@ def create_split_dataloaders(dataset, args):
     print "len(x_train_split)", len(x_train_split)
     print "len(y_train_split)", len(y_train_split)
 
-    return dataloader_train, dataloader_test
+    return dataloaders_train, dataloader_test
