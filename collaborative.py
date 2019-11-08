@@ -88,7 +88,7 @@ if __name__ == '__main__':
         parser.add_argument('--dataset', type = str, default = 'MNIST')
         parser.add_argument('--network', type = str, default = 'LeNet')
         parser.add_argument('--n_clients', type = int, default = 4)
-        parser.add_argument('--epochs', type = int, default = 200)
+        parser.add_argument('--epochs', type = int, default = 5000)
         parser.add_argument('--batch_size', type = int, default = 32)
         parser.add_argument('--lr', type = float, default = 1e-3)
         parser.add_argument('--eps', type = float, default = 1e-3)

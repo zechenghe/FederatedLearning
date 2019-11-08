@@ -18,6 +18,13 @@ import torch.backends.cudnn as cudnn
 import collections
 
 class FederatedLearner(object):
+
+    '''
+        Simulate Server-Client Federated Learning
+        Public methods represent client-side functions
+        Private methods represent server-sode functions
+    '''
+
     def __init__(self, net, args):
         super(FederatedLearner, self).__init__()
 
@@ -69,9 +76,11 @@ class FederatedLearner(object):
 
     def _update_model(self):
 
-        # Use average of gradients as global gradients
-        # Update parameters according to the update rules
-
+        '''
+            Use average of gradients as global gradients
+            Update parameters according to the update rules
+        '''
+        
         self.net.zero_grad()
         for c_idx in range(self.n_clients):
             assert len(self.model_state[c_idx]) == len(list(self.net.parameters()))
