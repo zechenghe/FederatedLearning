@@ -61,12 +61,12 @@ def FederatedTrain(args):
         learner.load_model(model_path = model_dir + global_model_name + global_model_suffix)
 
         for i in range(n_clients):
-            print 't= ', t, 'client model idx= ', i
+            print 't=', t, 'client model idx=', i
             try:
                 batchX, batchY = next(dataiters_train[i])
             except StopIteration:
                 dataiters_train[i] = iter(dataloaders_train[i])
-                batchX, batchY = next(dataloader_iterator)
+                batchX, batchY = next(dataiters_train[i])
 
             learner.comp_grad(i, batchX, batchY)
         learner._update_model()
@@ -74,7 +74,7 @@ def FederatedTrain(args):
         global_model_suffix = '_{cur}.pth'.format(cur=t)
         torch.save(learner.net.state_dict(), model_dir + global_model_name + global_model_suffix)
 
-        if t % 100 == 0:
+        if t % args.n_eval_iters == 0:
             learner._evalTest(test_loader = dataloader_test)
 
 if __name__ == '__main__':
@@ -93,6 +93,7 @@ if __name__ == '__main__':
         parser.add_argument('--lr', type = float, default = 1e-3)
         parser.add_argument('--eps', type = float, default = 1e-3)
         parser.add_argument('--AMSGrad', type = bool, default = True)
+        parser.add_argument('--n_eval_iters', type = int, default = 1000)
         parser.add_argument('--model_dir', type = str, default = "checkpoints/")
         parser.add_argument('--global_model_name', type = str, default = 'global_model')
         parser.add_argument('--global_optimizor_name', type = str, default = 'global_optim')
