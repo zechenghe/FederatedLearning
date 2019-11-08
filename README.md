@@ -1,4 +1,4 @@
-An implementation of Federated Learning, a.k.a Collaborative Learning.
+A pytorch implementation of Federated Learning, a.k.a Collaborative Learning.
 
 #### Dependencies:
 
