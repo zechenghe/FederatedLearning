@@ -74,7 +74,7 @@ def FederatedTrain(args):
         global_model_suffix = '_{cur}.pth'.format(cur=t)
         torch.save(learner.net.state_dict(), model_dir + global_model_name + global_model_suffix)
 
-        if t % args.n_eval_iters == 0:
+        if (t+1) % args.n_eval_iters == 0:
             learner._evalTest(test_loader = dataloader_test)
 
 if __name__ == '__main__':
