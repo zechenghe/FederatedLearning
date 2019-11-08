@@ -77,7 +77,10 @@ class FederatedLearner(object):
             assert len(self.model_state[c_idx]) == len(list(self.net.parameters()))
 
             for p_idx, p in enumerate(list(self.net.parameters())):
-                p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx]))
+                if self.gpu:
+                    p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx].cuda()))
+                else:
+                    p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx]))
 
             self.optimizer.step()
 
