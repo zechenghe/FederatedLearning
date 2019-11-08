@@ -38,3 +38,4 @@ print skimage.__version__
 #### Run federated learning
 
 python collaborative.py --n_clients 4
+Use --nogpu if you do not have GPU on hand
