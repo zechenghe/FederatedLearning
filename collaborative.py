@@ -74,7 +74,8 @@ def FederatedTrain(args):
         global_model_suffix = '_{cur}.pth'.format(cur=t)
         torch.save(learner.net.state_dict(), model_dir + global_model_name + global_model_suffix)
 
-        learner._evalTest(test_loader = dataloader_test)
+        if t % 100 == 0:
+            learner._evalTest(test_loader = dataloader_test)
 
 if __name__ == '__main__':
 
@@ -100,7 +101,7 @@ if __name__ == '__main__':
         parser.add_argument('--nogpu', dest='gpu', action='store_false')
         parser.set_defaults(gpu=True)
         args = parser.parse_args()
-        assert args.n_clients > 2
+        #assert args.n_clients > 1
 
         FederatedTrain(args)
     except:

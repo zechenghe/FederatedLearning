@@ -65,7 +65,7 @@ class FederatedLearner(object):
         loss = criterion(logits, batchY)
         loss.backward()
 
-        self.model_state[idx] = [x.grad.detach().cpu().numpy().copy() for x in self.net.parameters()]
+        self.model_state[idx] = [x.grad.clone() for x in self.net.parameters()]
 
     def _update_model(self):
 
@@ -78,9 +78,9 @@ class FederatedLearner(object):
 
             for p_idx, p in enumerate(list(self.net.parameters())):
                 if self.gpu:
-                    p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx]).cuda())
+                    p.grad.add_(self.model_state[c_idx][p_idx]).cuda()
                 else:
-                    p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx]))
+                    p.grad.add_(self.model_state[c_idx][p_idx])
 
             self.optimizer.step()
 
