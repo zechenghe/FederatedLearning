@@ -1,5 +1,9 @@
 #### Dependencies:
 
+pytorch 2.7
+
+numpy
+
 pytorch 1.3.0
 
 torchvision 0.4.1
