@@ -16,7 +16,8 @@ import torch.backends.cudnn as cudnn
 
 import data
 import net
-from client import Client
+from fdlearner import FederatedLearner
+from utils import *
 
 def FederatedTrain(args):
 
@@ -37,20 +38,19 @@ def FederatedTrain(args):
     n_clients = args.n_clients
 
     global_net = net.LeNet(n_channels = n_channels)
-    global_net = global_net.cuda()
     print global_net
+
+    learner = FederatedLearner(net = global_net, args = args)
+    learner.gpu = args.gpu
 
     model_dir = args.model_dir
     global_model_name = args.global_model_name
     global_optim_name = args.global_optimizor_name
-
+    global_model_suffix = global_model_suffix = '_init_.pth'
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
-    torch.save(global_net.state_dict(), model_dir + global_model_name + '_init_.pth')
+    torch.save(learner.net.state_dict(), model_dir + global_model_name + global_model_suffix)
     print "Model saved"
-
-    client = Client(net = global_net, args = args)
-    client.gpu = args.gpu
 
     for t in range(args.epochs):
         if t == 0:
@@ -58,7 +58,7 @@ def FederatedTrain(args):
         else:
             global_model_suffix = '_{cur}.pth'.format(cur=t-1)
 
-        client.load_model(model_path = model_dir + global_model_name + global_model_suffix)
+        learner.load_model(model_path = model_dir + global_model_name + global_model_suffix)
 
         for i in range(n_clients):
             print 't= ', t, 'client model idx= ', i
@@ -68,8 +68,13 @@ def FederatedTrain(args):
                 dataiters_train[i] = iter(dataloaders_train[i])
                 batchX, batchY = next(dataloader_iterator)
 
-            client.comp_grad(i, batchX, batchY)
+            learner.comp_grad(i, batchX, batchY)
+        learner._update_model()
 
+        global_model_suffix = '_{cur}.pth'.format(cur=t)
+        torch.save(learner.net.state_dict(), model_dir + global_model_name + global_model_suffix)
+
+        learner._evalTest(test_loader = dataloader_test)
 
 if __name__ == '__main__':
 
@@ -85,6 +90,8 @@ if __name__ == '__main__':
         parser.add_argument('--epochs', type = int, default = 200)
         parser.add_argument('--batch_size', type = int, default = 32)
         parser.add_argument('--lr', type = float, default = 1e-3)
+        parser.add_argument('--eps', type = float, default = 1e-3)
+        parser.add_argument('--AMSGrad', type = bool, default = True)
         parser.add_argument('--model_dir', type = str, default = "checkpoints/")
         parser.add_argument('--global_model_name', type = str, default = 'global_model')
         parser.add_argument('--global_optimizor_name', type = str, default = 'global_optim')

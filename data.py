@@ -24,8 +24,8 @@ def load_mnist():
     print "DATASET: ", DATASET
     if DATASET == 'MNIST':
 
-        mu = torch.tensor([0.5, 0.5, 0.5], dtype=torch.float32)
-        sigma = torch.tensor([0.5, 0.5, 0.5], dtype=torch.float32)
+        mu = torch.tensor((0.5,), dtype=torch.float32)
+        sigma = torch.tensor((0.5,), dtype=torch.float32)
         Normalize = transforms.Normalize(mu.tolist(), sigma.tolist())
         Unnormalize = transforms.Normalize((-mu / sigma).tolist(), (1.0 / sigma).tolist())
 
@@ -116,5 +116,11 @@ def create_split_dataloaders(dataset, args):
     print "dataset['train'].target.shape ", dataset['train'].data.shape
     print "dataset['test'].data.shape ", dataset['test'].data.shape
     print "dataset['test'].data.shape ", dataset['test'].data.shape
+
+    for idx, loader in enumerate(dataloaders_train):
+        print "Client {idx} train subsets: {l}".format(
+            idx = idx,
+            l = len(loader.dataset)
+        )
 
     return dataloaders_train, dataloader_test
