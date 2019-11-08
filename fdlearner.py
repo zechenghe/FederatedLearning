@@ -78,7 +78,7 @@ class FederatedLearner(object):
 
             for p_idx, p in enumerate(list(self.net.parameters())):
                 if self.gpu:
-                    p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx].cuda()))
+                    p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx]).cuda())
                 else:
                     p.grad.add_(torch.tensor(self.model_state[c_idx][p_idx]))
 
