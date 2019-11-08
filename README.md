@@ -6,4 +6,6 @@ torchvision 0.4.1
 
 scikit-image 0.14.5
 
+#### Run federated learning
+
 python collaborative.py --n_clients 4
