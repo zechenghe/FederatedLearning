@@ -2,7 +2,7 @@ An implementation of Federated Learning, a.k.a Collaborative Learning.
 
 #### Dependencies:
 
-pytorch 2.7
+python 2.7
 
 numpy 1.16.5
 
