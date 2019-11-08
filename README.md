@@ -3,9 +3,9 @@ An implementation of Federated Learning, a.k.a Collaborative Learning.
 #### Dependencies:
 
 python 2.7
-'''
+```
 python --version
-'''
+```
 
 numpy 1.16.5
 
